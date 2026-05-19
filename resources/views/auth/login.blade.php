@@ -36,6 +36,9 @@
                     Login
                 </button>
             </form>
+              <p class="text-center text-sm text-gray-500 mt-4">
+      Belum punya akun? <a href="{{ route('register') }}" class="text-gray-800 font-medium hover:underline">Register</a>
+              </p>
         </div>
     </div>
 
