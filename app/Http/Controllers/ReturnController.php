@@ -4,9 +4,25 @@ namespace App\Http\Controllers;
 use App\Models\ReturnModel;
 use App\Models\LoanDetail;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ReturnsExport;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReturnController extends Controller
 {
+
+    public function exportExcel()
+    {
+        return Excel::download(new ReturnsExport, 'returns.xlsx');
+    }
+
+    public function exportPdf()
+    {
+        $returns = ReturnModel::with('loanDetail.book', 'loanDetail.loan.user')->get();
+        $pdf = Pdf::loadView('pdf.returns', compact('returns'));
+        return $pdf->download('returns.pdf');
+    }
+
     public function index()
     {
         $returns = ReturnModel::with('loanDetail.book', 'loanDetail.loan.user')->latest()->paginate(10);

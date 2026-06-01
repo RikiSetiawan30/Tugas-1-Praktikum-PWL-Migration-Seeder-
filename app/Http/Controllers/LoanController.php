@@ -6,9 +6,25 @@ use App\Models\LoanDetail;
 use App\Models\User;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\LoansExport;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class LoanController extends Controller
 {
+
+    public function exportExcel()
+    {
+        return Excel::download(new LoansExport, 'loans.xlsx');
+    }
+
+    public function exportPdf()
+    {
+        $loans = Loan::with('user', 'loanDetails.book')->get();
+        $pdf = Pdf::loadView('pdf.loans', compact('loans'));
+        return $pdf->download('loans.pdf');
+    }
+
     public function index()
     {
         $loans = Loan::with('user', 'loanDetails.book')->latest()->paginate(10);

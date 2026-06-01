@@ -4,10 +4,11 @@
 @section('content')
 <div class="flex justify-between items-center mb-6">
     <h1 class="text-xl font-semibold">Daftar User</h1>
-    <a href="{{ route('users.create') }}"
-       class="px-4 py-2 bg-gray-800 text-white text-sm rounded-md hover:bg-gray-700">
-        Tambah
-    </a>
+    <div class="flex gap-2">
+        <a href="{{ route('users.export-pdf') }}" class="px-4 py-2 bg-gray-600 text-white text-sm rounded-md hover:bg-gray-500">Export PDF</a>
+        <a href="{{ route('users.export-excel') }}" class="px-4 py-2 bg-gray-600 text-white text-sm rounded-md hover:bg-gray-500">Export Excel</a>
+        <a href="{{ route('users.create') }}" class="px-4 py-2 bg-gray-800 text-white text-sm rounded-md hover:bg-gray-700">Tambah</a>
+    </div>
 </div>
 
 <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">

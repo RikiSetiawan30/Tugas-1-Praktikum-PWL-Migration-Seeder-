@@ -3,9 +3,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
-
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\CategoriesExport;
+use Barryvdh\DomPDF\Facade\Pdf;
 class CategoryController extends Controller
 {
+    public function exportExcel()
+    {
+        return Excel::download(new CategoriesExport, 'categories.xlsx');
+    }
+
+    public function exportPdf()
+    {
+        $categories = Category::all();
+        $pdf = Pdf::loadView('pdf.categories', compact('categories'));
+        return $pdf->download('categories.pdf');
+    }
+
     public function index()
     {
         $categories = Category::latest()->paginate(10);

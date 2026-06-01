@@ -5,9 +5,25 @@ use App\Models\Book;
 use App\Models\Category;
 use App\Models\Bookshelf;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\BooksExport;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BookController extends Controller
 {
+
+    public function exportExcel()
+    {
+        return Excel::download(new BooksExport, 'books.xlsx');
+    }
+
+    public function exportPdf()
+    {
+        $books = Book::with('category', 'bookshelf')->get();
+        $pdf = Pdf::loadView('pdf.books', compact('books'));
+        return $pdf->download('books.pdf');
+    }
+
     public function index()
     {
         $books = Book::with('category', 'bookshelf')->latest()->paginate(10);

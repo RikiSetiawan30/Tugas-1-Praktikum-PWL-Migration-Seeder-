@@ -3,9 +3,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Bookshelf;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\BookshelfsExport;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BookshelfController extends Controller
 {
+
+    public function exportExcel()
+    {
+        return Excel::download(new BookshelfsExport, 'bookshelfs.xlsx');
+    }
+
+    public function exportPdf()
+    {
+        $bookshelfs = Bookshelf::all();
+        $pdf = Pdf::loadView('pdf.bookshelfs', compact('bookshelfs'));
+        return $pdf->download('bookshelfs.pdf');
+    }
+
     public function index()
     {
         $bookshelfs = Bookshelf::latest()->paginate(10);
