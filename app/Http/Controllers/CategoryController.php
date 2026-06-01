@@ -6,8 +6,17 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\CategoriesExport;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Imports\CategoriesImport;
 class CategoryController extends Controller
 {
+
+    public function importExcel(Request $request)
+    {
+        $request->validate(['file' => 'required|mimes:xlsx,xls,csv']);
+        Excel::import(new CategoriesImport, $request->file('file'));
+        return redirect()->route('categories.index')->with('success', 'Data berhasil diimport!');
+    }
+
     public function exportExcel()
     {
         return Excel::download(new CategoriesExport, 'categories.xlsx');

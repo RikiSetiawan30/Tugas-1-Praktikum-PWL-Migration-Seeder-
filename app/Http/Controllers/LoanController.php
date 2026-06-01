@@ -9,9 +9,17 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\LoansExport;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Imports\LoansImport;
 
 class LoanController extends Controller
 {
+
+    public function importExcel(Request $request)
+    {
+        $request->validate(['file' => 'required|mimes:xlsx,xls,csv']);
+        Excel::import(new LoansImport, $request->file('file'));
+        return redirect()->route('loans.index')->with('success', 'Data berhasil diimport!');
+    }
 
     public function exportExcel()
     {

@@ -7,9 +7,17 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ReturnsExport;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Imports\ReturnsImport;
 
 class ReturnController extends Controller
 {
+
+    public function importExcel(Request $request)
+    {
+        $request->validate(['file' => 'required|mimes:xlsx,xls,csv']);
+        Excel::import(new ReturnsImport, $request->file('file'));
+        return redirect()->route('returns.index')->with('success', 'Data berhasil diimport!');
+    }
 
     public function exportExcel()
     {

@@ -6,9 +6,17 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BookshelfsExport;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Imports\BookshelfsImport;
 
 class BookshelfController extends Controller
 {
+
+    public function importExcel(Request $request)
+    {
+        $request->validate(['file' => 'required|mimes:xlsx,xls,csv']);
+        Excel::import(new BookshelfsImport, $request->file('file'));
+        return redirect()->route('bookshelfs.index')->with('success', 'Data berhasil diimport!');
+    }
 
     public function exportExcel()
     {

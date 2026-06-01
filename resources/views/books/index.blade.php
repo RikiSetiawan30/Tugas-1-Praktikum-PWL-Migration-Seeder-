@@ -11,6 +11,17 @@
     </div>
 </div>
 
+<div class="mt-4 bg-white border border-gray-200 rounded-lg p-4 max-w-sm">
+    <p class="text-sm font-medium text-gray-700 mb-2">Import Excel</p>
+    <form action="{{ route('books.import') }}" method="POST" enctype="multipart/form-data" class="flex gap-2">
+        @csrf
+        <input type="file" name="file" accept=".xlsx,.xls,.csv"
+            class="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm">
+        <button type="submit"
+            class="px-4 py-1.5 bg-gray-800 text-white text-sm rounded-md hover:bg-gray-700 whitespace-nowrap">Import</button>
+    </form>
+</div>
+
 <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
     <table class="min-w-full text-sm">
         <thead class="bg-gray-50 border-b border-gray-200">

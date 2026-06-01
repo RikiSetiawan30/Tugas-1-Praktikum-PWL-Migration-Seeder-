@@ -8,9 +8,17 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BooksExport;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Imports\BooksImport;
 
 class BookController extends Controller
 {
+
+    public function importExcel(Request $request)
+    {
+        $request->validate(['file' => 'required|mimes:xlsx,xls,csv']);
+        Excel::import(new BooksImport, $request->file('file'));
+        return redirect()->route('books.index')->with('success', 'Data berhasil diimport!');
+    }
 
     public function exportExcel()
     {

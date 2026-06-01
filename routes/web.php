@@ -33,6 +33,13 @@ Route::get('loans/export-pdf', [LoanController::class, 'exportPdf'])->name('loan
 Route::get('returns/export-excel', [ReturnController::class, 'exportExcel'])->name('returns.export-excel');
 Route::get('returns/export-pdf', [ReturnController::class, 'exportPdf'])->name('returns.export-pdf');
 
+Route::post('categories/import', [CategoryController::class, 'importExcel'])->name('categories.import');
+Route::post('bookshelfs/import', [BookshelfController::class, 'importExcel'])->name('bookshelfs.import');
+Route::post('books/import', [BookController::class, 'importExcel'])->name('books.import');
+Route::post('users/import', [UserController::class, 'importExcel'])->name('users.import');
+Route::post('loans/import', [LoanController::class, 'importExcel'])->name('loans.import');
+Route::post('returns/import', [ReturnController::class, 'importExcel'])->name('returns.import');
+
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
